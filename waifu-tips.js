@@ -1,7 +1,3 @@
-/*
- * Live2D Widget
- * https://github.com/stevenjoezhang/live2d-widget
- */
 
 function loadWidget(config) {
 	let { waifuPath, apiPath, cdnPath } = config;
@@ -53,9 +49,14 @@ function loadWidget(config) {
 	(function registerEventListener() {
 		document.querySelector("#waifu-tool .fa-comment").addEventListener("click", showHitokoto);
 		document.querySelector("#waifu-tool .fa-paper-plane").addEventListener("click", () => {
+			if (window.Asteroids) {
+				if (!window.ASTEROIDSPLAYERS) window.ASTEROIDSPLAYERS = [];
+				window.ASTEROIDSPLAYERS.push(new Asteroids());
+			} else {
 				let script = document.createElement("script");
 				script.src = "https://cdn.jsdelivr.net/gh/GalaxyMimi/CDN/asteroids.js";
 				document.head.appendChild(script);
+			}
 		});
 		document.querySelector("#waifu-tool .fa-user-circle").addEventListener("click", loadOtherModel);
 		document.querySelector("#waifu-tool .fa-street-view").addEventListener("click", loadRandModel);
@@ -79,13 +80,13 @@ function loadWidget(config) {
 		let devtools = () => {};
 		console.log("%c", devtools);
 		devtools.toString = () => {
-			showMessage("哦？大佬来了！", 6000, 9);
-	};
+			showMessage("呦！大佬啊！", 6000, 9);
+		};
 		window.addEventListener("copy", () => {
-			showMessage("抄抄抄，NMD就tm只会抄是吧", 6000, 9);
+			showMessage("抄抄抄!就你🐎会抄！", 6000, 9);
 		});
 		window.addEventListener("visibilitychange", () => {
-			if (!document.hidden) showMessage("球球宁啦，别烦我啦！", 6000, 9);
+			if (!document.hidden) showMessage("球球宁别烦👴了！！！", 6000, 9);
 		});
 	})();
 
@@ -93,27 +94,26 @@ function loadWidget(config) {
 		let text;
 		if (location.pathname === "/") { // 如果是主页
 			let now = new Date().getHours();
-			if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
-			else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
-			else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
-			else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
-			else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
-			else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
-			else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
-			else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
+			if (now > 5 && now <= 7) text = "这么早，宁8吃早饭的啊？";
+			else if (now > 7 && now <= 11) text = "这么早就对我打手冲？！";
+			else if (now > 11 && now <= 13) text = "中午了，去恰点饭8！";
+			else if (now > 13 && now <= 17) text = "别烦👴，👴在睡午觉";
+			else if (now > 17 && now <= 19) text = "傍晚了！👴要准备溜了";
+			else if (now > 19 && now <= 21) text = "晚上要来了，猎马人开始行动了？";
+			else if (now > 21 && now <= 23) text = ["这么晚了，摇了我吧"];
+			else text = "宁没有夜生活？也对毕竟肥宅嘛！";
 		} else if (document.referrer !== "") {
-			text = `找到👴啦？🐂🍺`;
+			text = `哇，宁从哪里找到我的？`;
 		}
 		showMessage(text, 7000, 8);
 	})();
-
 
 	function showHitokoto() {
 		// 增加 hitokoto.cn 的 API
 		fetch("https://v1.hitokoto.cn")
 			.then(response => response.json())
 			.then(result => {
-				let text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
+				let text = `我的爸爸虽然很厉害，但是我的主人也挺强的，嘻嘻。`;
 				showMessage(result.hitokoto, 6000, 9);
 				setTimeout(() => {
 					showMessage(text, 4000, 9);
@@ -121,7 +121,6 @@ function loadWidget(config) {
 			});
 	}
 
-	
 	function showMessage(text, timeout, priority) {
 		if (!text || (sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > priority)) return;
 		if (messageTimer) {
@@ -214,7 +213,7 @@ function loadWidget(config) {
 			fetch(`${apiPath}rand_textures/?id=${modelId}-${modelTexturesId}`)
 				.then(response => response.json())
 				.then(result => {
-					if (result.textures.id === 1 && (modelTexturesId === 1 || modelTexturesId === 0)) showMessage("给👴充钱买衣服吧，没衣服换了！", 4000, 10);
+					if (result.textures.id === 1 && (modelTexturesId === 1 || modelTexturesId === 0)) showMessage("我还没有其他衣服呢！", 4000, 10);
 					else loadModel(modelId, result.textures.id, "👴的新衣服好看吧！");
 				});
 		}
