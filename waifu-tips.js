@@ -1,4 +1,9 @@
 
+/*
+ * Live2D Widget
+ * https://github.com/stevenjoezhang/live2d-widget
+ */
+
 function loadWidget(config) {
 	let { waifuPath, apiPath, cdnPath } = config;
 	let useCDN = false, modelList;
@@ -14,8 +19,11 @@ function loadWidget(config) {
 			<canvas id="live2d" width="300" height="300"></canvas>
 			<div id="waifu-tool">
 				<span class="fa fa-lg fa-comment"></span>
+				<span class="fa fa-lg fa-paper-plane"></span>
+				<span class="fa fa-lg fa-user-circle"></span>
 				<span class="fa fa-lg fa-street-view"></span>
 				<span class="fa fa-lg fa-camera-retro"></span>
+				<span class="fa fa-lg fa-info-circle"></span>
 				<span class="fa fa-lg fa-times"></span>
 			</div>
 		</div>`);
@@ -31,7 +39,7 @@ function loadWidget(config) {
 	let userAction = false,
 		userActionTimer,
 		messageTimer,
-		messageArray = ["NM$L? 半天不动老子！", "方向你手中的针线活好吗，秋梨膏", "不来和👴玩，你在搞你🐎呢", "怎么不动了？在给你🐎选新的骨灰盒吗？", "半天不动，你死了🐎？"];
+		messageArray = ["NM$L? 半天不动老子！", "放下你手中的针线活好吗，秋梨膏", "不来和👴玩，你在搞你🐎呢", "怎么不动了？在给你🐎选新的骨灰盒吗？", "半天不动，你死了🐎？"];
 	window.addEventListener("mousemove", () => userAction = true);
 	window.addEventListener("keydown", () => userAction = true);
 	setInterval(() => {
@@ -110,7 +118,7 @@ function loadWidget(config) {
 			else if (domain === "so") text = `Hello！来自 360搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&q=")[1].split("&")[0]}</span> 找到的我吗？`;
 			else if (domain === "google") text = `Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
 			else text = `Hello！来自 <span>${referrer.hostname}</span> 的朋友`;
-		}else{
+		} else {
 			text = `哇，宁从哪里找到我的？`;
 		}
 		showMessage(text, 7000, 8);
@@ -215,14 +223,14 @@ function loadWidget(config) {
 			if (!modelList) await loadModelList();
 			let target = randomSelection(modelList.models[modelId]);
 			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
-			showMessage("👴的新衣服好看🐎？", 4000, 10);
+			showMessage("👴的新衣服好撸🐎？", 4000, 10);
 		} else {
 			// 可选 "rand"(随机), "switch"(顺序)
 			fetch(`${apiPath}rand_textures/?id=${modelId}-${modelTexturesId}`)
 				.then(response => response.json())
 				.then(result => {
 					if (result.textures.id === 1 && (modelTexturesId === 1 || modelTexturesId === 0)) showMessage("我还没有其他衣服呢！", 4000, 10);
-					else loadModel(modelId, result.textures.id, "👴的新衣服好看吧！");
+					else loadModel(modelId, result.textures.id, "冲起来得劲🐎？");
 				});
 		}
 	}
